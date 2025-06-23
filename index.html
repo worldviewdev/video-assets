@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Something Exciting is Coming</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      transition: opacity 1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="relative flex items-center justify-center h-screen text-white">
+
+  <!-- Background Videos -->
+  <video class="bg-video absolute inset-0" autoplay muted loop playsinline preload="auto" id="video1" poster="https://cdn.jsdelivr.net/gh/worldviewdev/video-assets@main/Capri_n2.png"></video>
+  <video class="bg-video absolute inset-0 opacity-0" autoplay muted loop playsinline id="video2"></video>
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
+
+  <!-- Content -->
+  <div class="relative z-20 text-center px-6 space-y-6 max-w-6xl">
+    <img id="logo" src="" class="mx-auto h-20 drop-shadow-md" alt="Logo" />
+    <h1 class="text-6xl md:text-7xl font-extrabold shadow-text">Something Exciting is Coming</h1>
+    <p class="text-xl md:text-2xl font-medium shadow-text">
+      This domain is owned by <strong>Italy Vacation Specialist</strong>.<br />
+      We’re working on something great — stay tuned!
+    </p>
+    <p class="text-sm text-gray-200 shadow-text">
+      For inquiries, feel free to contact us at <a id="email-link" href="#" class="underline"></a>
+    </p>
+
+    <!-- Social Links -->
+    <div class="flex justify-center space-x-6 mt-6 text-white text-2xl" id="social-links">
+      <!-- Social links injected by JS -->
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIG =====
+    const CONFIG = {
+      logo: "https://cdn.jsdelivr.net/gh/worldviewdev/video-assets@main/logo_w_new.png",
+      email: "devteam@italyvacationspecialist.com",
+      videos: [
+        "https://cdn.jsdelivr.net/gh/worldviewdev/video-assets@main/Capri_n2.mp4",
+        "https://cdn.jsdelivr.net/gh/worldviewdev/video-assets@main/Capri_n3.mp4",
+        "https://cdn.jsdelivr.net/gh/worldviewdev/video-assets@main/Capri_n2.mp4"
+      ],
+      socials: {
+        facebook: "https://facebook.com/italyvacationspecialists",
+        instagram: "https://instagram.com/italyvacationspecialists",
+        whatsapp: "#"
+      }
+    };
+
+    // Set logo and email
+    document.getElementById("logo").src = CONFIG.logo;
+    document.getElementById("email-link").href = "mailto:" + CONFIG.email;
+    document.getElementById("email-link").innerText = CONFIG.email;
+
+    // Insert social icons
+    const icons = {
+      facebook: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.64 9.87v-6.99h-2.1V12h2.1V9.8c0-2.08 1.23-3.23 3.12-3.23.9 0 1.84.16 1.84.16v2.02h-1.04c-1.02 0-1.34.63-1.34 1.28V12h2.28l-.36 2.88h-1.92v6.99A10 10 0 0022 12z" /></svg>`,
+      instagram: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M7.5 2A5.5 5.5 0 002 7.5v9A5.5 5.5 0 007.5 22h9a5.5 5.5 0 005.5-5.5v-9A5.5 5.5 0 0016.5 2h-9zM12 7a5 5 0 110 10 5 5 0 010-10zm6.5-.25a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM12 9.5A2.5 2.5 0 1014.5 12 2.5 2.5 0 0012 9.5z" /></svg>`,
+      whatsapp: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 32 32"><path d="M16 2.933c-7.285 0-13.2 5.915-13.2 13.2a13.1 13.1 0 001.791 6.58l-1.876 6.88 7.058-1.848a13.122 13.122 0 006.227 1.554c7.285 0 13.2-5.915 13.2-13.2S23.285 2.933 16 2.933zm6.77 18.808c-.284.791-1.667 1.54-2.299 1.64-.591.095-1.347.138-2.153-.133-.494-.164-1.126-.368-1.945-.737a17.63 17.63 0 01-3.003-2.008 11.663 11.663 0 01-2.076-2.626c-.047-.082-.405-.725-.405-1.385s.254-1.01.355-1.18c.094-.158.205-.197.274-.197h.184c.159.001.238.002.341.262s.392.943.428 1.012c.034.071.065.16.012.26s-.053.155-.105.237c-.053.082-.11.183-.157.247-.053.071-.108.149-.046.293.06.14.268.44.57.716a10.59 10.59 0 002.018 1.353c.282.138.503.23.683.294.286.11.545.094.748.057.228-.042.699-.286.798-.563.1-.278.1-.514.07-.563-.028-.048-.105-.07-.219-.123z"/></svg>`
+    };
+
+    const socialDiv = document.getElementById("social-links");
+    for (let key in CONFIG.socials) {
+      const a = document.createElement("a");
+      a.href = CONFIG.socials[key];
+      a.target = "_blank";
+      a.innerHTML = icons[key];
+      a.classList.add("hover:text-blue-400");
+      socialDiv.appendChild(a);
+    }
+
+    // ===== VIDEO CROSSFADE =====
+    const sources = CONFIG.videos;
+    const video1 = document.getElementById("video1");
+    const video2 = document.getElementById("video2");
+    let current = 0;
+    let activeVideo = video1;
+    let inactiveVideo = video2;
+
+    function crossfadeTo(index) {
+      inactiveVideo.src = sources[index];
+      inactiveVideo.load();
+      inactiveVideo.oncanplay = () => {
+        inactiveVideo.play();
+        inactiveVideo.classList.remove("opacity-0");
+        activeVideo.classList.add("opacity-0");
+        [activeVideo, inactiveVideo] = [inactiveVideo, activeVideo];
+      };
+    }
+
+    activeVideo.src = sources[current];
+    activeVideo.play();
+
+    setInterval(() => {
+      current = (current + 1) % sources.length;
+      crossfadeTo(current);
+    }, 10000);
+  </script>
+
+</body>
+</html>
